@@ -1,0 +1,25 @@
+﻿@page "/tag"
+<h3>Tag</h3>
+
+<input placeholder="name" @bind="Tname" />
+<button @onclick="find">find</button>
+@if (!(taglist.Count == 0))
+{
+    @foreach (var tag in taglist)
+    {
+        <p>
+            name: @tag.name<br/>
+            films:@tag.Films
+        </p>
+    }
+}
+@code {
+    private string Tname;
+    private List<tag> taglist = new List<tag>();
+    private alldb db = new alldb();
+    private void find()
+    {
+        taglist = db.TagList(Tname);
+    }
+}
+

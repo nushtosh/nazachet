@@ -1,0 +1,44 @@
+﻿@page "/film"
+<h3>Film</h3>
+<input placeholder="name" @bind="Fname" />
+<button @onclick="find">find</button>
+@if (!(filmlist.Count == 0))
+{
+    @foreach (var movie in filmlist)
+    {
+        TMDBParser parser = new TMDBParser(movie);
+<p>
+    <img src=@parser.Image>
+    <br />
+    name: @movie.name
+    <br />
+    director: @movie.director
+    <br />
+    rating: @movie.rating
+    <br />
+    actors: @movie.Actors
+    <br />
+    tags: @movie.Tags
+    <br />
+    summary:@parser.Information
+    <br />
+    recommended for you:@foreach (var mov in parser.Recommends)
+    {
+        @mov.Item1
+        <img src=@mov.Item2>
+    }
+
+</p>
+    }
+}
+@code {
+
+    private string Fname;
+    private List<film> filmlist = new List<film>();
+    private alldb db = new alldb();
+    private void find()
+    {
+        filmlist = db.FilmList(Fname);
+    }
+
+}

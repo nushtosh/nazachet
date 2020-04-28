@@ -1,0 +1,31 @@
+﻿@page "/actor"
+<h3>Actor</h3>
+<input placeholder="name" @bind="Aname" />
+<button @onclick="find">find</button>
+@if (!(actorlist.Count == 0))
+{
+    @foreach (var act in actorlist)
+    {
+
+        //var filmsRefreshed = act.Films.Split('\t').ToList();
+        //for (var i = 0; i < filmsRefreshed.Count; ++i)
+        //    filmsRefreshed[i] += ", ";
+        //string filmLine = "";
+        //for (var i = 0; i < filmsRefreshed.Count - 1) ;
+        //filmLine += filmsRefreshed[i];
+
+        <p>
+            name: @act.name<br/>
+            films:@act.Films
+        </p>
+    }
+}
+@code {
+    private string Aname;
+    private List<actor> actorlist = new List<actor>();
+    private alldb db = new alldb();
+    private void find()
+    {
+        actorlist = db.ActorList(Aname);
+    }
+}

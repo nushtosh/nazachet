@@ -1,44 +1,68 @@
 ﻿@page "/film"
+@page "/film/{filmname}"
 <h3>Film</h3>
-<input placeholder="name" @bind="Fname" />
+<input placeholder="name" @bind="filmname" />
 <button @onclick="find">find</button>
-@if (!(filmlist.Count == 0))
-{
-    @foreach (var movie in filmlist)
-    {
-        TMDBParser parser = new TMDBParser(movie);
-<p>
-    <img src=@parser.Image>
-    <br />
-    name: @movie.name
-    <br />
-    director: @movie.director
-    <br />
-    rating: @movie.rating
-    <br />
-    actors: @movie.Actors
-    <br />
-    tags: @movie.Tags
-    <br />
-    summary:@parser.Information
-    <br />
-    recommended for you:@foreach (var mov in parser.Recommends)
-    {
-        @mov.Item1
-        <img src=@mov.Item2>
-    }
 
-</p>
+@if (filmname != null)
+{
+    @if (!buton)
+    {
+        find();
+    }
+    @if (!(filmlist.Count == 0))
+    {
+        @foreach (var movie in filmlist)
+        {
+            TMDBParser parser = new TMDBParser(movie);
+            <p>
+                <img src=@parser.Image>
+                <br />
+                name: @movie.name
+                <br />
+                director: @movie.director
+                <br />
+                rating: @movie.rating
+                <br />
+                actors: @foreach (var actor in movie.Actors.Split('\t'))
+                {
+                    @if (!string.IsNullOrWhiteSpace(actor))
+                    {
+                        <a href="actor/@actor">@actor</a> <text>, </text>
+                    }
+                }
+                <br />
+                tags: @foreach (var ttag in movie.Tags.Split('\t'))
+                {
+                    @if (!string.IsNullOrWhiteSpace(ttag))
+                    {
+                        <a href="tag/@ttag">@ttag</a> <text>, </text>
+                    }
+                }
+                <br />
+                summary:@parser.Information
+                <br />
+                recommended for you:@for (int i=1;i<parser.Recommends.Count;i++)
+                {
+                    
+                    @parser.Recommends[i].Item1
+                    <img src=@parser.Recommends[i].Item2>
+                }
+
+            </p>
+        }
     }
 }
-@code {
+    @code {
+[Parameter]
+    public string filmname { get; set; }
 
-    private string Fname;
     private List<film> filmlist = new List<film>();
     private alldb db = new alldb();
+        private bool buton = false;
     private void find()
     {
-        filmlist = db.FilmList(Fname);
+        filmlist = db.FilmList(filmname);
     }
 
-}
+    }

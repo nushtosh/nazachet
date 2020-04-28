@@ -1,25 +1,42 @@
 ﻿@page "/tag"
+@page "/tag/{tagname}"
 <h3>Tag</h3>
 
-<input placeholder="name" @bind="Tname" />
+<input placeholder="name" @bind="tagname" />
 <button @onclick="find">find</button>
-@if (!(taglist.Count == 0))
+
+@if (tagname != null)
 {
-    @foreach (var tag in taglist)
+    @if (!buton)
     {
-        <p>
-            name: @tag.name<br/>
-            films:@tag.Films
-        </p>
+        find();
+    }
+    @if (!(taglist.Count == 0))
+    {
+        @foreach (var tag in taglist)
+        {
+            <p>
+                name: @tag.name<br />
+                films:@foreach (var mov in tag.Films.Split('\t'))
+                {
+                    @if (!string.IsNullOrWhiteSpace(mov))
+                    {
+                        <a href="tag/@mov">@mov</a> <text>, </text>
+                    }
+                }
+            </p>
+        }
     }
 }
-@code {
-    private string Tname;
+    @code {
+[Parameter]
+    public string tagname { get; set; }
     private List<tag> taglist = new List<tag>();
     private alldb db = new alldb();
+        private bool buton = false;
     private void find()
     {
-        taglist = db.TagList(Tname);
+        taglist = db.TagList(tagname);
     }
-}
+    }
 

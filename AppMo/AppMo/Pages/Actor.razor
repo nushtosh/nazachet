@@ -1,31 +1,48 @@
 ﻿@page "/actor"
+@page "/actor/{actorname}"
 <h3>Actor</h3>
-<input placeholder="name" @bind="Aname" />
+<input placeholder="name" @bind="actorname" />
 <button @onclick="find">find</button>
-@if (!(actorlist.Count == 0))
+@if (actorname != null)
 {
-    @foreach (var act in actorlist)
+    @if (!buton)
     {
+        find();
+    }
+    if (!(actorlist.Count == 0))
+    {
+        @foreach (var act in actorlist)
+        {
 
-        //var filmsRefreshed = act.Films.Split('\t').ToList();
-        //for (var i = 0; i < filmsRefreshed.Count; ++i)
-        //    filmsRefreshed[i] += ", ";
-        //string filmLine = "";
-        //for (var i = 0; i < filmsRefreshed.Count - 1) ;
-        //filmLine += filmsRefreshed[i];
+            //var filmsRefreshed = act.Films.Split('\t').ToList();
+            //for (var i = 0; i < filmsRefreshed.Count; ++i)
+            //    filmsRefreshed[i] += ", ";
+            //string filmLine = "";
+            //for (var i = 0; i < filmsRefreshed.Count - 1) ;
+            //filmLine += filmsRefreshed[i];
 
-        <p>
-            name: @act.name<br/>
-            films:@act.Films
-        </p>
+            <p>
+                name: @act.name<br />
+                films:@foreach (var mov in act.Films.Split('\t'))
+                {
+                    @if (!string.IsNullOrWhiteSpace(mov))
+                    {
+                        <a href="film/@mov">@mov</a> <text>, </text>
+                    }
+                }
+            </p>
+        }
     }
 }
-@code {
-    private string Aname;
+    @code {
+
+[Parameter]
+    public string actorname { get; set; }
     private List<actor> actorlist = new List<actor>();
     private alldb db = new alldb();
+         private bool buton = false;
     private void find()
     {
-        actorlist = db.ActorList(Aname);
+        actorlist = db.ActorList(actorname);
     }
-}
+    }

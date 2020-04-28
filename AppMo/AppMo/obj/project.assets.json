@@ -8201,11 +8201,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\olya\\Documents\\Visual Studio 2019\\AppMo\\AppMo\\AppMo.csproj",
+      "projectUniqueName": "C:\\Users\\olya\\Desktop\\nazachet\\AppMo\\AppMo\\AppMo.csproj",
       "projectName": "AppMo",
-      "projectPath": "C:\\Users\\olya\\Documents\\Visual Studio 2019\\AppMo\\AppMo\\AppMo.csproj",
+      "projectPath": "C:\\Users\\olya\\Desktop\\nazachet\\AppMo\\AppMo\\AppMo.csproj",
       "packagesPath": "C:\\Users\\olya\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\olya\\Documents\\Visual Studio 2019\\AppMo\\AppMo\\obj\\",
+      "outputPath": "C:\\Users\\olya\\Desktop\\nazachet\\AppMo\\AppMo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\olya\\AppData\\Roaming\\NuGet\\NuGet.Config",
